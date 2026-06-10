@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>Lista de Tarefas</h1>
+
+<input id="title" placeholder="Nova tarefa">
+
+<button onclick="adicionar()">
+    Adicionar
+</button>
+
+<ul id="lista"></ul>
+
+<script>
+async function carregar() {
+    const res = await fetch("/tasks");
+    const tarefas = await res.json();
+
+    lista.innerHTML = "";
+
+    tarefas.forEach(t => {
+        lista.innerHTML += `<li>${t.title}</li>`;
+    });
+}
+
+async function adicionar() {
+    await fetch("/tasks", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: title.value
+        })
+    });
+
+    title.value = "";
+
+    carregar();
+}
+
+carregar();
+</script>
+
+</body>
+</html>
