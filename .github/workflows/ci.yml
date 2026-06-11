@@ -50,14 +50,26 @@ jobs:
   deploy:
     needs: ci
     runs-on: ubuntu-latest
-    # para deploy automático em push para main, use: if: github.ref == 'refs/heads/main'
-    # if: startsWith(github.ref, 'refs/tags/v') # só roda deploy em tags de versão
-    if: startsWith(github.ref, 'refs/heads/main') # roda deploy em push para main
+    if: github.ref == 'refs/heads/main'
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Deploy
+      - name: Deploy no Render
+        env:
+          DEPLOY_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
-          echo "Simulando deploy..."
-          echo "Aqui você colocaria seus comandos reais de deploy"
+          curl "$DEPLOY_URL"
+
+  # deploy:
+  #   needs: ci
+  #   runs-on: ubuntu-latest
+  #   # para deploy automático em push para main, use: if: github.ref == 'refs/heads/main'
+  #   # if: startsWith(github.ref, 'refs/tags/v') # só roda deploy em tags de versão
+  #   if: startsWith(github.ref, 'refs/heads/main') # roda deploy em push para main
+
+  #   steps:
+  #     - uses: actions/checkout@v4
+
+  #     - name: Deploy
+  #       run: |
+  #         echo "Simulando deploy..."
+  #         echo "Aqui você colocaria seus comandos reais de deploy"
