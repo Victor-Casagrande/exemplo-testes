@@ -530,7 +530,3 @@ Parar containers:
 ```bash
 docker compose down
 ```
-
----
-
-Pronto. Com esses arquivos e comandos, voce recria o mesmo projeto com API, frontend, testes automatizados, coverage e execucao em container.

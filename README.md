@@ -277,5 +277,3 @@ Exemplo:
   }
 }
 ```
-
-Se a cobertura estiver abaixo dos limites definidos, a execução será encerrada com erro, impedindo a aprovação da pipeline.
