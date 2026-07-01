@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
     <title>Lista de Tarefas</title>
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,7 +12,7 @@
 
 <input id="title" placeholder="Nova tarefa">
 
-<button onclick="adicionar()">
+<button id="btn-adicionar" onclick="adicionar()">
     Adicionar
 </button>
 
@@ -30,20 +31,30 @@ async function carregar() {
 }
 
 async function adicionar() {
-    await fetch("/tasks", {
+    const titleValue = document.getElementById("title").value;
+
+    const res = await fetch("/tasks", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            title: title.value
+            title: titleValue
         })
     });
 
-    title.value = "";
-
-    carregar();
+    if (res.ok) {
+        document.getElementById("title").value = "";
+        carregar();
+    }
 }
+
+// Suporte a pressionar Enter para submeter (tarefa E2E 9)
+document.getElementById("title").addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        adicionar();
+    }
+});
 
 carregar();
 </script>

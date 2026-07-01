@@ -3,12 +3,17 @@ const repository = require("../repositories/taskRepository");
 let currentId = 1;
 
 function addTask(title) {
-  if (!title) {
+  // null e undefined são tratados antes do check de string
+  if (title === null || title === undefined) {
     throw new Error("Titulo obrigatorio");
   }
 
   if (typeof title !== "string") {
     throw new Error("Título deve ser uma string");
+  }
+
+  if (title.trim().length === 0) {
+    throw new Error("Titulo obrigatorio");
   }
 
   if (title.trim().length < 3) {
@@ -33,6 +38,17 @@ function getTasks() {
   return repository.findAll();
 }
 
+function getTaskById(id) {
+  const tasks = repository.findAll();
+  const task = tasks.find((t) => t.id === id);
+
+  if (!task) {
+    throw new Error("Tarefa não encontrada");
+  }
+
+  return task;
+}
+
 function deleteTask(id) {
   const tasks = repository.findAll();
   const taskExists = tasks.some((task) => task.id === id);
@@ -47,5 +63,6 @@ function deleteTask(id) {
 module.exports = {
   addTask,
   getTasks,
+  getTaskById,
   deleteTask,
 };
